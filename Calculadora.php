@@ -84,8 +84,7 @@ if(isset($_POST['calcula'])){
 
 // verifica se o input salvar foi clicado.
 if (isset($_POST['salvar'])) {
-    $_SESSION["resultado_s"] = $_SESSION["resultado"];            
-    "Resultado salvo!";
+    $_SESSION["resultado_s"] = $_SESSION["resultado"];
 } 
 
 // verifica se o input mostrar foi clicado.
@@ -94,6 +93,19 @@ if (isset($_POST['mostrar'])) {
         $_SESSION["resultado_s"];
     }else{
         "Nenhum resultado salvo.";
+    }
+}
+
+// verifica se o input M foi clicado.    
+if (isset($_POST['m'])) {
+    $m = isset($_SESSION['m']) ? $_SESSION['m'] : false;
+    if($m == false){
+        $_SESSION["resultado_m"] = isset($_SESSION['resultado']) ? $_SESSION['resultado'] : null;
+        $_SESSION['m'] = true;
+       
+    }else{
+       ($_SESSION['resultado_m'] ?? "Nenhum resultado salvo.");
+        $_SESSION['m'] = false;
     }
 }
 
@@ -152,6 +164,7 @@ if (isset($_POST['limpar_historico'])) {
         <input type="submit" name="calcula" value="Calcular">
         <input type="submit" name="salvar" value="Salvar">
         <input type="submit" name="mostrar" value="Mostrar">
+        <input type="submit" name="m" value=" M ">
         <input type="submit" name="limpar_historico" value="Limpar Histórico">
     </form>
 
@@ -163,17 +176,28 @@ if (isset($_POST['limpar_historico'])) {
                 echo $_SESSION["resultado"];
                 echo"<br>";
             }
-            // verifica se o input salvar foi clicado.
-            if (isset($_POST['salvar'])) {
-            $_SESSION["resultado_s"] = $_SESSION["resultado"];            
+            // Salvar o resultado.
+            if (isset($_POST['salvar'])) {      
             echo "Resultado salvo!";
             } 
-            // verifica se o input mostrar foi clicado.
-            if (isset($_POST['mostrar'])) {
-                if(isset($_SESSION["resultado_s"])){
-                    echo "Salvo: " . $_SESSION["resultado_s"];
+            echo "<br>";
+            // Mostrar o resultado salvo.
+            if(isset($_SESSION["resultado_s"])){
+                echo "Salvo: " . $_SESSION["resultado_s"];
+            }else{
+                echo "Nenhum resultado salvo.";
+            }
+            echo "<br>";
+
+            // Mostra o M    
+            if (isset($_POST['m'])) {
+                if($m == false){
+                    $_SESSION["resultado_m"] = isset($_SESSION['resultado']) ? $_SESSION['resultado'] : null;
+                    $_SESSION['m'] = true;
+                    echo "M salvo <br>";
                 }else{
-                    echo "Nenhum resultado salvo.";
+                    echo "M resultado: " . ($_SESSION['resultado_m'] ?? "Nenhum resultado salvo.");
+                    $_SESSION['m'] = false;
                 }
             }
             ?>
